@@ -4,7 +4,8 @@ routes = {
     "/": "Homepage",
     "/welcome": "Hello World!",
     "/about": "copyright reserved by Blade",
-    "/index": open("index.html").read()
+    "/index": open("index.html").read(),
+    "/login": open("login.html").read(),
 }
 
 class TestServer(BaseHTTPRequestHandler):
