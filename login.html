@@ -4,7 +4,7 @@
     <head>
     <meta name="description" content="Webpage description goes here" />
     <meta charset="utf-8">
-    <title>Change_me</title>
+    <title>Log In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="">
     <link rel="stylesheet" href="css/style.css">
@@ -17,10 +17,11 @@
     <body>
         <div id="login_form">
             <h1>Login</h1>
-            <form method="GET" action="/accept">
+            <div><p>###ERROR###</p></div>
+            <form method="POST" action="/accept">
                 <div>
                     <label>Username</label>
-                    <input type="text" name="username" id="username" placeholder="Please type in your username here."/>
+                    <input type="text" name="username" id="username" placeholder="Please type in your username here." value=""/>
                 </div>
                 <div>
                     <label for="password">Password</label>
@@ -30,6 +31,9 @@
                     <input type="submit" value="Submit">
                 </div>
             </form>
+        </div>
+        <div>
+            <a href="/register">Sign Up</a>
         </div>
     <script>
     </script>

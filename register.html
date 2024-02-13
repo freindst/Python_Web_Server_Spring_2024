@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Webpage description goes here" />
+  <meta charset="utf-8">
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+  
+<div class="container">
+    <div><p>###ERROR###</p></div>
+    <form method="post" action="/register">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" class="class-username" name="username" placeholder="type in your username"/>
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input id="password" type="password" name="password" placeholder="enter your password"/>
+          </div>
+          <div>
+            <label for="password2">Re-enter Password</label>
+            <input id="password2" type="password" name="password2" placeholder="Repeat your password"/>
+          </div>
+          <div>
+            <input type="submit" value="Create Accout"/>
+          </div>
+    </form>
+    <div>
+        <a href="/login">Sign In</a>
+    </div>
+</div>
+
+<script>
+</script>
+
+</body>
+</html>
