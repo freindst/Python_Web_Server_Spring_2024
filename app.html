@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="description" content="Webpage description goes here" />
+  <meta charset="utf-8">
+  <title>Change_me</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+  
+<div class="container">
+    <div>
+        <h1>Blade's App</h1>
+    </div>
+    <div id="main">
+        <table>
+            <tbody>
+                <tr>
+                    <td><button id="buton-login">Login</button></td>
+                    <td><button id="button-signup">Sign Up</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="message-area">
+
+    </div>
+    <div id="form-area">
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#buton-login").click(function(){
+            $.ajax({
+                method: "GET",
+                url: "/api/login"
+            }).done(function(data){
+                console.log(data);
+                html = data.html;
+                $("#form-area").html(html);
+                $("#login-form").submit(function(event){
+                    event.preventDefault();
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/login",
+                        data: {
+                            username: $("#username").val(),
+                            password: $("#password").val()
+                        }
+                    }).done(function(data){
+                        console.log(data);
+                        if (data.answer == 200){
+                            $("#form-area").html("");
+                            $("#message-area").html("Welcome, " + data.username + "!");
+                        } else if (data.answer == 400){
+                            $("#message-area").html(data["error-message"]);
+                            $("#username").val("");
+                            $("#password").val("");
+                        }
+                    })
+                })
+            });
+        })
+    });
+</script>
+
+</body>
+</html>

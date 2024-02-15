@@ -13,6 +13,7 @@ routes = {
     "/login": open("login.html").read(),
     "/accept": open("user_home.html").read(),
     "/register": open("register.html").read(),
+    "/app": open("app.html").read(),
 }
 error = False
 error_message = ""
@@ -24,17 +25,28 @@ class TestServer(BaseHTTPRequestHandler):
     def do_GET(self):
         global error
         global error_message
-        self.send_response(200) # OK
-        self.send_header("Content-type", "text/html")
-        self.end_headers()
         if error:
             error = False
         else:
             error_message = ""
         for route in routes:
             if route == self.path or (self.path.startswith(route) and route != '/'):
+                self.send_response(200) # OK
+                self.send_header("Content-type", "text/html")
+                self.end_headers()
                 self.wfile.write(bytes(routes[route].replace("###ERROR###", error_message), "UTF-8"))
                 break
+        if self.path.startswith("/api/"):
+            if self.path.endswith("/login"):
+                self.send_response(200)
+                self.send_header("content-type", "application/json")
+                self.end_headers()
+                result = {
+                    "status": 200,
+                    "html": open("login-form.html").read()
+                }
+                self.wfile.write(bytes(json.dumps(result), "UTF-8"))
+            
         
     def do_POST(self):
         global error
@@ -53,8 +65,9 @@ class TestServer(BaseHTTPRequestHandler):
             if form["username"] == user["username"]:
                 foundUser = True
             if form["username"] == user["username"] and form["password"] == user["password"]:
-                match = True
+                match = True         
                 break
+            print(match)
         if self.path == "/accept":
             if match:
                 self.send_response(200)
@@ -96,6 +109,22 @@ class TestServer(BaseHTTPRequestHandler):
                 with open("users.json", "w") as outfile:
                     json.dump(users, outfile)
                 self.wfile.write(bytes(routes["/accept"].replace("###USER###", form["username"]), "UTF-8"))
+        elif self.path == "/api/login":
+            self.send_response(200)
+            self.send_header("content-type", "application/json")
+            self.end_headers()
+            if match:
+                result = {
+                    "answer": 200,
+                    "username": form["username"]
+                }
+                self.wfile.write(bytes(json.dumps(result), "UTF-8"))
+            else:
+                result = {
+                    "answer": 400,
+                    "error-message": "Incorrect username and password."
+                }
+                self.wfile.write(bytes(json.dumps(result), "UTF-8"))
     def redirect(self):
         self.send_response(301)
         self.send_header('Location','/login')
